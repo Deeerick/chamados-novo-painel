@@ -66,9 +66,9 @@ def tratar_plataforma(plataforma):
     if re.match(r'^[A-Z]\d{2}$', plataforma):
         return f'{plataforma[0]}-{plataforma[1:]}'
     
-    # Se plataforma for uma string de 2 caracteres e um dígito, retornar a string com o hífen no meio
+    # Se plataforma for uma string de 2 caracteres e um dígito, retornar a string com "P" no começo e o hífen no meio
     elif re.match(r'^[A-Z]{2}\d$', plataforma):
-        return f'{plataforma[:2]}-{plataforma[2]}'
+        return f'P{plataforma[:2]}-{plataforma[2]}'
     
     return plataforma
 
