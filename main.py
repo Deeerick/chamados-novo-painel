@@ -13,12 +13,14 @@ def main():
     df = pd.read_sql_query(QUERY, conn_sql)
     print('Dados carregados.')
     
-    # Converter a coluna 'Início' para o formato de data dd/mm/aaaa
+    # Converter as colunas de data para o formato dd/mm/aaaa
     df['Início'] = pd.to_datetime(df['Início']).dt.strftime('%d/%m/%Y')
+    df['Término'] = pd.to_datetime(df['Término']).dt.strftime('%d/%m/%Y')
+    df['Próxima_Atualização'] = pd.to_datetime(df['Próxima_Atualização']).dt.strftime('%d/%m/%Y')
     
     # Aplicar a função para calcular as datas de término e próxima atualização
-    df['Término'] = df.apply(lambda row: calcular_data_termino(row['Início']) if pd.isna(row['Término']) else row['Término'], axis=1)
-    df['Próxima Atualização'] = df['Término']
+    df['Término'] = df.apply(lambda row: adicionar_dias(row['Início']) if pd.isna(row['Término']) else row['Término'], axis=1)
+    df['Próxima_Atualização'] = df['Término']
 
     # Tratar valores NaN na coluna 'Plataforma'
     df['Plataforma'] = df['Plataforma'].fillna('')
@@ -34,17 +36,15 @@ def main():
     
 
 # Função para calcular a data adicionando 90 dias e ajustando para evitar finais de semana
-def calcular_data_termino(data_inicio):
+def adicionar_dias(data_inicio):
     
     # Se data_inicio for NaN, retornar NaN
-    if pd.isna(data_inicio):
-        return data_inicio
-    
-    # Converter data_inicio de string para datetime
-    data_inicio = pd.to_datetime(data_inicio, format='%d/%m/%Y')
+    # if pd.isna(data_inicio):
+    #     return data_inicio
     
     # Adicionar 90 dias
-    data_termino = data_inicio + timedelta(days=90)
+    data_inicio_dt = pd.to_datetime(data_inicio, format='%d/%m/%Y')
+    data_termino = data_inicio_dt + timedelta(days=90)
     
     # Se cair no sábado (5) ou domingo (6)
     if data_termino.weekday() > 4:
