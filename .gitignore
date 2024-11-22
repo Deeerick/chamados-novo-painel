@@ -1,3 +1,5 @@
 config.py
 *.xlsx
+*.jar
 \venv
+\backup
