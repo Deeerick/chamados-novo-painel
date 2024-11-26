@@ -2,7 +2,7 @@ import os
 import pyodbc
 import jaydebeapi
 
-from utils.config import SERVER, DATABASE, TRUSTED_CONNECTION, USER, PASSWORD_TDV, URL, TDV
+from utils.config import SERVER, DATABASE, TRUSTED_CONNECTION, USER, PASSWORD, URL, TDV
 
 
 def conexao_sql():
@@ -22,7 +22,7 @@ def conexao_tdv():
     os.environ["CLASSPATH"] = TDV
 
     conn_tdv = jaydebeapi.connect(
-        "cs.jdbc.driver.CompositeDriver", URL, [USER, PASSWORD_TDV])
+        "cs.jdbc.driver.CompositeDriver", URL, [USER, PASSWORD])
     
     print('Conexão com o TDV realizada com sucesso!')
 
