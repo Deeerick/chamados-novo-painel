@@ -2,7 +2,7 @@ import re
 import pandas as pd
 
 from utils.config import QUERY
-from utils.conexao_database import conexao_sql
+from utils.conexao_database import conexao_sql, conexao_tdv
 from datetime import timedelta
 
 
